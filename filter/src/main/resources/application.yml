@@ -1,0 +1,31 @@
+server:
+  port: 8200
+  servlet:
+    context-path: /api/
+
+custom:
+  services:
+    url: http://localhost:8000/api
+  authorization:
+    url: http://localhost:8100/api
+  security:
+    issuer: services-name
+    secret: NWE3MjBkYTMtZTgyMy00YzM2LTljN2YtZmM5OWFlY2NlMGM1
+  jwt-token:
+    x-auth-access-token: "x-auth-access-token"
+    x-auth-refresh-token: "x-auth-refresh-token"
+    expiration-time-access-token: 4500
+    expiration-time-refresh-token: 86400
+
+zuul:
+  routes:
+
+    #SERVICES
+    test-objects:
+      path: /test-objects/**
+      url: ${custom.services.url}/test-objects/
+
+    #AUTHORIZATION
+    auth:
+      path: /auth/**
+      url: ${custom.authorization.url}/auth/

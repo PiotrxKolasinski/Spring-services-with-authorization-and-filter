@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="1.2.0-1" author="">
+        <createTable tableName="tb_auth_token">
+            <column autoIncrement="true" name="auth_token_id" type="int(36)" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="auth_token_type" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="auth_token_user_email" type="varchar(256)"/>
+            <column name="auth_token_token" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="auth_token_create_date" type="datetime2">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint constraintName="fk_auth_token_user_email" onDelete="SET NULL"
+                                 baseTableName="tb_auth_token" baseColumnNames="auth_token_user_email"
+                                 referencedTableName="tb_user" referencedColumnNames="user_email"/>
+
+        <createIndex tableName="tb_auth_token" indexName="index_auth_token_user_email" unique="false" clustered="false">
+            <column name="auth_token_user_email"/>
+        </createIndex>
+
+    </changeSet>
+</databaseChangeLog>

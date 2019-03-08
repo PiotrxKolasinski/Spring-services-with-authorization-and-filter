@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="1.3.0-1" author="">
+        <createTable tableName="tb_test_object">
+            <column autoIncrement="true" name="test_object_id" type="int(36)" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="test_object_name" type="nvarchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="test_object_type" type="nvarchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="test_object_date" type="datetime2">
+                <constraints nullable="false"/>
+            </column>
+            <column name="test_object_user_id" type="int(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint constraintName="fk_test_object_user_id" onDelete="CASCADE"
+                                 baseTableName="tb_test_object" baseColumnNames="test_object_user_id"
+                                 referencedTableName="tb_user" referencedColumnNames="user_id"/>
+
+        <createIndex tableName="tb_test_object" indexName="index_test_object_user_id" unique="false" clustered="false">
+            <column name="test_object_user_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
