@@ -48,7 +48,10 @@ public class HttpResponseFilter extends ZuulFilter {
 
     @Override
     public boolean shouldFilter() {
-        return true;
+        final RequestContext ctx = RequestContext.getCurrentContext();
+        HttpServletRequest request = ctx.getRequest();
+        String requestPath = request.getRequestURI();
+        return !requestPath.contains("admins");
     }
 
     @Override
